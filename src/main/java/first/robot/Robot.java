@@ -5,6 +5,11 @@
  */
 package first.robot;
 
+import first.robot.mechanisms.Drivetrain;
+import first.robot.mechanisms.Feeder;
+import first.robot.mechanisms.IntakeLauncher;
+import first.robot.simulation.FuelSim;
+import org.wpilib.command3.Scheduler;
 import org.wpilib.framework.OpModeRobot;
 
 /**
@@ -15,6 +20,9 @@ import org.wpilib.framework.OpModeRobot;
  * project.
  */
 public class Robot extends OpModeRobot {
+  public Drivetrain drivetrain = new Drivetrain();
+  public IntakeLauncher intakeLauncher = new IntakeLauncher();
+  public Feeder feeder = new Feeder();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -23,5 +31,11 @@ public class Robot extends OpModeRobot {
   public Robot() {}
 
   @Override
-  public void simulationPeriodic() {}
+  public void robotPeriodic() {
+    Scheduler.getDefault().run();
+    drivetrain.periodic();
+    intakeLauncher.periodic();
+    feeder.periodic();
+    FuelSim.periodic();
+  }
 }
